@@ -52,12 +52,12 @@ namespace BoardGames.DataContract.DatabContext
 
       modelBuilder.Entity<BoardGames_Categories>()
         .HasKey(i => new { i.BoardGameId, i.CategoryId });
-      modelBuilder.Entity<BoardGames_Categories>()
-        .HasOne(x => x.BoardGame)
-        .WithMany(y => y.BoardGames_Categories)
-        .HasForeignKey(f => f.BoardGameId)
-        .IsRequired()
-        .OnDelete(DeleteBehavior.Cascade);
+      //modelBuilder.Entity<BoardGames_Categories>()
+      //  .HasOne(x => x.BoardGame)
+      //  .WithMany(y => y.BoardGames_Categories)
+      //  .HasForeignKey(f => f.BoardGameId)
+      //  .IsRequired()
+      //  .OnDelete(DeleteBehavior.Cascade);
       modelBuilder.Entity<BoardGames_Categories>()
         .HasOne(o => o.Category)
         .WithMany(m => m.BoardGames_Categories)

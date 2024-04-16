@@ -1,4 +1,9 @@
+using BoardGames.DataAccess.Interfaces;
+using BoardGames.DataAccess.Repository;
 using BoardGames.DataContract.DatabContext;
+using BoardGames.RestApi.Services;
+using BoardGames.Shared.Interfaces;
+using BoardGames.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyBGList
@@ -13,6 +18,13 @@ namespace MyBGList
       builder.Services.AddControllers();
       builder.Services.AddEndpointsApiExplorer();
       builder.Services.AddSwaggerGen();
+      builder.Services.AddScoped<IRepository, BaseRepository>();
+      builder.Services.AddScoped<ICsvReader, CsvReader>();
+      builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
+      builder.Services.AddScoped<IDomainsRepository, DomainsRepository>();
+      builder.Services.AddScoped<IMechanicsRepository, MechanicsRepository>();
+      builder.Services.AddScoped<IBoardGameService, BoardGameService>();
+      builder.Services.AddScoped<ISeedDataService, SeedDataService>();
 
       builder.Services.AddDbContext<BoardGamesDbContext>(options =>
       {
@@ -33,7 +45,6 @@ namespace MyBGList
       app.UseHttpsRedirection();
 
       app.UseAuthorization();
-
 
       app.MapControllers();
 
