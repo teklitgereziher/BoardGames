@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BoardGames.DataContract\BoardGames.DataContract.csproj" />
   </ItemGroup>
 

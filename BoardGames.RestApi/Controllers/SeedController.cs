@@ -7,18 +7,15 @@ namespace BoardGames.RestApi.Controllers
   [ApiController]
   public class SeedController : ControllerBase
   {
-    private readonly IWebHostEnvironment _env;
     private readonly ISeedDataService _seedService;
     private readonly ILogger<SeedController> _logger;
 
     public SeedController(
       ISeedDataService seedService,
-      IWebHostEnvironment env,
       ILogger<SeedController> logger)
     {
       _logger = logger;
       _seedService = seedService;
-      _env = env;
     }
 
     [HttpPut(Name = "Seed")]

@@ -17,6 +17,21 @@ namespace BoardGames.RestApi.Services
       return await _boardGameRepo.GetBoardGamesListAsync();
     }
 
+    public async Task<(List<BoardGame>, int)> GetBoardGamesAsync(
+      string filterQuery,
+      int pageIndex,
+      int pageSize,
+      string sortColumn,
+      string sortOrder)
+    {
+      return await _boardGameRepo.GetBoardGamesAsync(
+        filterQuery,
+        pageIndex,
+        pageSize,
+        sortColumn,
+        sortOrder);
+    }
+
     public async Task AddBoardGamesAsync(List<BoardGame> boardGames)
     {
       await _boardGameRepo.InsertBoardGamesAsync(boardGames);
