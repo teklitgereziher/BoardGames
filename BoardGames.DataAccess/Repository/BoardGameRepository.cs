@@ -14,11 +14,11 @@ namespace BoardGames.DataAccess.Repository
       _repository = repository;
     }
 
-    public async Task<List<BoardGame>> GetBoardGamesListAsync()
+    public async Task<BoardGame> GetBoardGameAsync(int boardGameId)
     {
       return await _repository
         .Query<BoardGame>()
-        .ToListAsync();
+        .FirstOrDefaultAsync(b => b.BoardGameId == boardGameId);
     }
 
     public async Task<Dictionary<int, BoardGame>> GetBoardGamesDictAsync()
@@ -54,9 +54,24 @@ namespace BoardGames.DataAccess.Repository
       return (gamesList, gameCount);
     }
 
+    public async Task<BoardGame> InsertBoardGameAsync(BoardGame boardGame)
+    {
+      return await _repository.InsertAsync(boardGame);
+    }
+
     public async Task InsertBoardGamesAsync(List<BoardGame> boardGames)
     {
       await _repository.InsertAsync(boardGames);
+    }
+
+    public async Task<BoardGame> UpdateBoardGameAsync(BoardGame boardGame)
+    {
+      return await _repository.UpdateAsync(boardGame);
+    }
+
+    public async Task DeleteBoardGameAsync(BoardGame boardGame)
+    {
+      await _repository.DeleteAsync(boardGame);
     }
   }
 }

@@ -1,14 +1,18 @@
 ﻿using BoardGames.DataContract.Models;
+using BoardGames.RestApi.DTOs;
 
 namespace BoardGames.RestApi.Services
 {
   public interface IBoardGameService
   {
-    Task<List<BoardGame>> GetBoardGameAsync();
+    Task<BoardGame> GetBoardGameAsync(int boardGameId);
     Task<(List<BoardGame>, int)> GetBoardGamesAsync(
       string filterQuery, int pageIndex,
       int pageSize, string sortColumn,
       string sortOrder);
+    Task<BoardGame> AddBoardGameAsync(AddBoardGameDTO boardGameDto);
     Task AddBoardGamesAsync(List<BoardGame> boardGames);
+    Task<BoardGame> UpdateBoardGameAsync(UpdateBoardGameDTO model);
+    Task<BoardGame> DeleteBoardGameAsync(int boardGameId);
   }
 }

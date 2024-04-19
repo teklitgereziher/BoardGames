@@ -1,8 +1,8 @@
 ﻿using BoardGames.DataContract.Models;
+using BoardGames.RestApi.DTOs;
 using BoardGames.RestApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
-using System.Net;
 
 namespace MyBGList.Controllers
 {
@@ -57,8 +57,152 @@ namespace MyBGList.Controllers
       }
       catch (Exception ex)
       {
-        return StatusCode((int)HttpStatusCode.InternalServerError,
-          $"Internal server error, Error= {ex.Message}");
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
+      }
+    }
+
+    [HttpPost]
+    [Route("addBoardGame")]
+    [ResponseCache(NoStore = true)]
+    public async Task<IActionResult> AddBoardGame(AddBoardGameDTO boardGameDTO)
+    {
+      try
+      {
+        var boardGame = await _boardGameService.AddBoardGameAsync(boardGameDTO);
+        return Created(string.Empty, boardGame);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
+      }
+    }
+
+    [HttpPut]
+    [Route("updateBoardGame")]
+    [ResponseCache(NoStore = true)]
+    public async Task<IActionResult> UpdateBoardGameAsync(UpdateBoardGameDTO model)
+    {
+
+      try
+      {
+        var boardgame = await _boardGameService.UpdateBoardGameAsync(model);
+        if (boardgame == null)
+        {
+          return NotFound("Board game to update not found.");
+        }
+
+        var result = new RestDTO<BoardGame>()
+        {
+          Data = boardgame,
+          Links = new List<LinkDTO>
+        {
+          new LinkDTO(
+            Url.Action(
+              null,
+              "BoardGames",
+              model,
+              Request.Scheme)!,
+            "self",
+            "POST"),
+        }
+        };
+
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
+      }
+    }
+
+    [HttpDelete]
+    [Route("deleteGame")]
+    [ResponseCache(NoStore = true)]
+    public async Task<IActionResult> DeleteBoardGameAsync(int id)
+    {
+      try
+      {
+        var boardgame = await _boardGameService.DeleteBoardGameAsync(id);
+        if (boardgame != null)
+        {
+          return NotFound("Board game to delete not found.");
+        }
+
+        var result = new RestDTO<BoardGame>()
+        {
+          Data = boardgame,
+          Links = new List<LinkDTO>
+        {
+          new LinkDTO(
+            Url.Action(
+              null,
+              "BoardGames",
+              id,
+              Request.Scheme)!,
+            "self",
+            "DELETE"),
+        }
+        };
+
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
+      }
+    }
+
+    [HttpDelete]
+    [Route("deleteGames")]
+    [ResponseCache(NoStore = true)]
+    public async Task<IActionResult> DeleteGames(string ids)
+    {
+      try
+      {
+        var idArray = ids.Split(',').Select(x => int.Parse(x));
+        var deletedBGList = new List<BoardGame>();
+
+        foreach (int id in idArray)
+        {
+          var boardgame = await _boardGameService.DeleteBoardGameAsync(id);
+        }
+
+        var result = new RestDTO<BoardGame[]>()
+        {
+          Data = null,
+          Links = new List<LinkDTO>
+        {
+          new LinkDTO(
+            Url.Action(
+              null,
+              "BoardGames",
+              ids,
+              Request.Scheme)!,
+            "self",
+            "DELETE"),
+        }
+        };
+
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
       }
     }
   }
