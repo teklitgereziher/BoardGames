@@ -1,8 +1,10 @@
 ﻿using BoardGames.DataContract.Models;
+using BoardGames.RestApi.Attributes;
 using BoardGames.RestApi.DTOs;
 using BoardGames.RestApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyBGList.Controllers
 {
@@ -22,14 +24,58 @@ namespace MyBGList.Controllers
     }
 
     [HttpGet]
+    [Route("retrieveGames")]
+    [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
+    public async Task<IActionResult> RetrieveBoardGames(
+      [FromQuery] RequestDTO<AddBoardGameDTO> input)
+    {
+      try
+      {
+        var (games, gameCount) = await _boardGameService
+          .GetBoardGamesAsync(
+          input.FilterQuery,
+          input.PageIndex,
+          input.PageSize,
+          input.SortColumn,
+          input.SortOrder);
+        var response = new RestDTO<List<BoardGame>>
+        {
+          Data = games,
+          PageIndex = input.PageIndex,
+          PageSize = input.PageSize,
+          RecordCount = gameCount,
+          Links = new List<LinkDTO> {
+          new LinkDTO(
+            Url.Action(
+              null,
+              "BoardGames",
+              new { input.PageIndex, input.PageSize },
+              Request.Scheme)!,
+            "self",
+            "GET"),
+          }
+        };
+
+        return Ok(response);
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(
+          StatusCodes.Status500InternalServerError,
+          $"Internal server error, Error= {ex.Message}"
+          );
+      }
+    }
+
+    [HttpGet]
     [Route("games")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
     public async Task<IActionResult> GetBoardGames(
       string filterQuery = null,
       int pageIndex = 0,
-      int pageSize = 10,
-      string sortColumn = "BoardGameId",
-      string sortOrder = "ASC")
+      [Range(1, 100)] int pageSize = 10,
+      [SortColumnValidator(typeof(AddBoardGameDTO))] string sortColumn = "BoardGameId",
+      [RegularExpression("ASC|DESC")] string sortOrder = "ASC")
     {
       try
       {

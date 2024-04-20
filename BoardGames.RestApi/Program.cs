@@ -2,6 +2,7 @@ using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataAccess.Repository;
 using BoardGames.DataContract.DatabContext;
 using BoardGames.RestApi.Services;
+using BoardGames.RestApi.Swagger;
 using BoardGames.Shared.Interfaces;
 using BoardGames.Shared.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,6 @@ namespace MyBGList
       // Add services to the container.
       builder.Services.AddControllers();
       builder.Services.AddEndpointsApiExplorer();
-      builder.Services.AddSwaggerGen();
       builder.Services.AddScoped<IRepository, BaseRepository>();
       builder.Services.AddScoped<ICsvReader, CsvReader>();
       builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
@@ -32,6 +32,11 @@ namespace MyBGList
           builder.Configuration.GetConnectionString("DbConnection")
           );
       }, ServiceLifetime.Scoped);
+      builder.Services.AddSwaggerGen(options =>
+      {
+        options.ParameterFilter<SortColumnFilter>();
+        options.ParameterFilter<SortOrderFilter>();
+      });
 
       var app = builder.Build();
 
