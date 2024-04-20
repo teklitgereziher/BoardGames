@@ -1,6 +1,7 @@
 ﻿using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataContract.DatabContext;
 using BoardGames.DataContract.Models;
+using BoardGames.RestApi.Services.Interfaces;
 using BoardGames.Shared.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,15 +11,15 @@ namespace BoardGames.RestApi.Services
   {
     private readonly BoardGamesDbContext _context;
     private IBoardGameRepository _boardGameRepo;
-    private IDomainsRepository _domainRepo;
-    private IMechanicsRepository _mechanicsRepo;
+    private IDomainRepository _domainRepo;
+    private IMechanicRepository _mechanicsRepo;
     private readonly ICsvReader _csvDataReader;
 
     public SeedDataService(
       BoardGamesDbContext context,
       IBoardGameRepository repository,
-      IDomainsRepository domainRepo,
-      IMechanicsRepository mechanicsRepo,
+      IDomainRepository domainRepo,
+      IMechanicRepository mechanicsRepo,
       ICsvReader csvDataReader)
     {
       _context = context;

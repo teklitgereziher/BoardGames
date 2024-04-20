@@ -2,6 +2,7 @@ using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataAccess.Repository;
 using BoardGames.DataContract.DatabContext;
 using BoardGames.RestApi.Services;
+using BoardGames.RestApi.Services.Interfaces;
 using BoardGames.RestApi.Swagger;
 using BoardGames.Shared.Interfaces;
 using BoardGames.Shared.Services;
@@ -21,10 +22,12 @@ namespace MyBGList
       builder.Services.AddScoped<IRepository, BaseRepository>();
       builder.Services.AddScoped<ICsvReader, CsvReader>();
       builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
-      builder.Services.AddScoped<IDomainsRepository, DomainsRepository>();
-      builder.Services.AddScoped<IMechanicsRepository, MechanicsRepository>();
+      builder.Services.AddScoped<IDomainRepository, DomainRepository>();
+      builder.Services.AddScoped<IMechanicRepository, MechanicRepository>();
       builder.Services.AddScoped<IBoardGameService, BoardGameService>();
       builder.Services.AddScoped<ISeedDataService, SeedDataService>();
+      builder.Services.AddScoped<IDomainService, DomainService>();
+      builder.Services.AddScoped<IMechanicService, MechanicService>();
 
       builder.Services.AddDbContext<BoardGamesDbContext>(options =>
       {

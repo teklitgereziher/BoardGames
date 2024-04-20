@@ -1,10 +1,11 @@
 ﻿using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataContract.Models;
 using BoardGames.RestApi.DTOs;
+using BoardGames.RestApi.Services.Interfaces;
 
 namespace BoardGames.RestApi.Services
 {
-  public class BoardGameService : IBoardGameService
+    public class BoardGameService : IBoardGameService
   {
     private IBoardGameRepository _boardGameRepo;
 

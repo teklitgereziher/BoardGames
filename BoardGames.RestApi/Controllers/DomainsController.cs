@@ -1,44 +1,72 @@
 ﻿using BoardGames.DataContract.Models;
+using BoardGames.RestApi.Attributes;
 using BoardGames.RestApi.DTOs;
 using BoardGames.RestApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
+using System.Diagnostics;
 
 namespace BoardGames.RestApi.Controllers
 {
   [Route("[controller]")]
   [ApiController]
-  public class MechanicsController : ControllerBase
+  public class DomainsController : ControllerBase
   {
-    private readonly IMechanicService _mechanicService;
-    private readonly ILogger<MechanicsController> _logger;
+    private readonly IDomainService _domainService;
+    private readonly ILogger<DomainsController> _logger;
 
-    public MechanicsController(
-      IMechanicService mechanicService,
-      ILogger<MechanicsController> logger)
+    public DomainsController(
+      IDomainService domainService,
+      ILogger<DomainsController> logger)
     {
-      _mechanicService = mechanicService;
+      _domainService = domainService;
       _logger = logger;
     }
 
     [HttpGet]
-    [Route("getMechanics")]
+    [Route("getDomains")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
-    public async Task<IActionResult> GetMechanicsAsync(
-      [FromQuery] RequestDTO<MechanicDTO> input)
+    [ManualValidationFilter]
+    public async Task<IActionResult> GetDomainsAsync(
+            [FromQuery] RequestDTO<DomainDTO> input)
     {
       try
       {
-        var (mechanics, recordCount) = await _mechanicService.GetMechanicsAsync(
+        if (!ModelState.IsValid)
+        {
+          var details = new ValidationProblemDetails(ModelState);
+          details.Extensions["traceId"] =
+              Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+          if (ModelState.Keys.Any(k => k == "PageSize"))
+          {
+            details.Type =
+                "https://tools.ietf.org/html/rfc7231#section-6.6.2";
+            details.Status = StatusCodes.Status501NotImplemented;
+            return new ObjectResult(details)
+            {
+              StatusCode = StatusCodes.Status501NotImplemented
+            };
+          }
+          else
+          {
+            details.Type =
+                "https://tools.ietf.org/html/rfc7231#section-6.5.1";
+            details.Status = StatusCodes.Status400BadRequest;
+            return new BadRequestObjectResult(details);
+          }
+        }
+
+        var (domains, recordCount) = await _domainService
+            .GetDomainsAsync(
             input.FilterQuery,
             input.PageIndex,
             input.PageSize,
             input.SortColumn,
             input.SortOrder);
 
-        var result = new RestDTO<List<Mechanic>>()
+        var result = new RestDTO<List<Domain>>()
         {
-          Data = mechanics,
+          Data = domains,
           PageIndex = input.PageIndex,
           PageSize = input.PageSize,
           RecordCount = recordCount,
@@ -46,7 +74,7 @@ namespace BoardGames.RestApi.Controllers
           new LinkDTO(
             Url.Action(
               null,
-              "Mechanics",
+              "Domains",
               new { input.PageIndex, input.PageSize },
               Request.Scheme)!,
             "self",
@@ -66,27 +94,27 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpPost]
-    [Route("updateMechanic")]
+    [Route("updateDomain")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> UpdateMechanicAsync(MechanicDTO model)
+    public async Task<IActionResult> UpdateDomainAsync(DomainDTO model)
     {
       try
       {
-        var mechanic = await _mechanicService.UpdateMechanicAsync(model);
-        if (mechanic == null)
+        var domain = await _domainService.UpdateDomainAsync(model);
+        if (domain == null)
         {
-          return NotFound("Mechanic to update not found.");
-        };
+          return NotFound("Domain to update not found.");
+        }
 
-        var result = new RestDTO<Mechanic>()
+        var result = new RestDTO<Domain>()
         {
-          Data = mechanic,
+          Data = domain,
           Links = new List<LinkDTO>
         {
           new LinkDTO(
             Url.Action(
               null,
-              "Mechanics",
+              "Domains",
               model,
               Request.Scheme)!,
             "self",
@@ -106,27 +134,27 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpDelete]
-    [Route("deleteMechanic")]
+    [Route("deleteDomain")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> DeleteMechanicAsync(int id)
+    public async Task<IActionResult> DeleteDomainAsync(int id)
     {
       try
       {
-        var mechanic = await _mechanicService.DeleteMechanicAsync(id);
-        if (mechanic != null)
+        var domain = await _domainService.DeleteDomainAsync(id);
+        if (domain == null)
         {
-          return NotFound("Mechanic to delete not found.");
+          return NotFound("Domain to delete not found.");
         }
 
-        var result = new RestDTO<Mechanic>()
+        var result = new RestDTO<Domain?>()
         {
-          Data = mechanic,
+          Data = domain,
           Links = new List<LinkDTO>
         {
           new LinkDTO(
             Url.Action(
               null,
-              "Mechanics",
+              "Domains",
               id,
               Request.Scheme)!,
             "self",

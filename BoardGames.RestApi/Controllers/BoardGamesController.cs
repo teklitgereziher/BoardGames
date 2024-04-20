@@ -1,7 +1,7 @@
 ﻿using BoardGames.DataContract.Models;
 using BoardGames.RestApi.Attributes;
 using BoardGames.RestApi.DTOs;
-using BoardGames.RestApi.Services;
+using BoardGames.RestApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
 using System.ComponentModel.DataAnnotations;
@@ -26,7 +26,7 @@ namespace MyBGList.Controllers
     [HttpGet]
     [Route("retrieveGames")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
-    public async Task<IActionResult> RetrieveBoardGames(
+    public async Task<IActionResult> RetrieveBoardGamesAsync(
       [FromQuery] RequestDTO<AddBoardGameDTO> input)
     {
       try
@@ -70,7 +70,7 @@ namespace MyBGList.Controllers
     [HttpGet]
     [Route("games")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
-    public async Task<IActionResult> GetBoardGames(
+    public async Task<IActionResult> GetBoardGamesAsync(
       string filterQuery = null,
       int pageIndex = 0,
       [Range(1, 100)] int pageSize = 10,
@@ -113,7 +113,7 @@ namespace MyBGList.Controllers
     [HttpPost]
     [Route("addBoardGame")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> AddBoardGame(AddBoardGameDTO boardGameDTO)
+    public async Task<IActionResult> AddBoardGameAsync(AddBoardGameDTO boardGameDTO)
     {
       try
       {
@@ -213,7 +213,7 @@ namespace MyBGList.Controllers
     [HttpDelete]
     [Route("deleteGames")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> DeleteGames(string ids)
+    public async Task<IActionResult> DeleteGamesAsync(string ids)
     {
       try
       {

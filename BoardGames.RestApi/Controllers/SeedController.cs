@@ -1,9 +1,9 @@
-﻿using BoardGames.RestApi.Services;
+﻿using BoardGames.RestApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGames.RestApi.Controllers
 {
-  [Route("[controller]")]
+    [Route("[controller]")]
   [ApiController]
   public class SeedController : ControllerBase
   {
