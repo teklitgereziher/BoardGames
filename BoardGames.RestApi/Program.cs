@@ -16,6 +16,16 @@ namespace MyBGList
     {
       var builder = WebApplication.CreateBuilder(args);
 
+      // Log to Azure Application Insights
+      //This configuration will activate the
+      //Application Insights logging provider
+      //builder.Logging
+      //  .AddApplicationInsights(
+      //  telemetry => telemetry.ConnectionString =
+      //  builder.Configuration["Azure:ApplicationInsights:ConnectionString"],
+      //  loggerOptions => { }
+      //  );
+
       // Add services to the container.
       builder.Services.AddControllers();
       builder.Services.AddEndpointsApiExplorer();
