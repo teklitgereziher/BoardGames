@@ -40,6 +40,13 @@ namespace MyBGList
         options.ParameterFilter<SortColumnFilter>();
         options.ParameterFilter<SortOrderFilter>();
       });
+      // Code replaced by the [ManualValidationFilter] attribute
+      // to apply only for a specific action method
+      // If the automatic model validation status check is disabled in the pipeline,
+      // we can manually check the model validation status.
+      // builder.Services.Configure<ApiBehaviorOptions>(options =>
+      //    options.SuppressModelStateInvalidFilter = true
+      //    );
 
       var app = builder.Build();
 

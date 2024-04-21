@@ -23,6 +23,13 @@ namespace BoardGames.RestApi.Controllers
       _logger = logger;
     }
 
+    /// <summary>
+    /// Manually checks th model validation without 
+    /// disabling the automatic model validation status
+    /// performed by the ApiController attribute
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     [HttpGet]
     [Route("getDomains")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
