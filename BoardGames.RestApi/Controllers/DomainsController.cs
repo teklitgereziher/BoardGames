@@ -31,7 +31,7 @@ namespace BoardGames.RestApi.Controllers
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet]
-    [Route("getDomains")]
+    [Route("domains")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
     [ManualValidationFilter]
     public async Task<IActionResult> GetDomainsAsync(
@@ -101,13 +101,13 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpPost]
-    [Route("updateDomain")]
+    [Route("{domainId}")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> UpdateDomainAsync(DomainDTO model)
+    public async Task<IActionResult> UpdateDomainAsync(int domainId, DomainDTO model)
     {
       try
       {
-        var domain = await _domainService.UpdateDomainAsync(model);
+        var domain = await _domainService.UpdateDomainAsync(domainId, model);
         if (domain == null)
         {
           return NotFound("Domain to update not found.");
@@ -141,7 +141,7 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpDelete]
-    [Route("deleteDomain")]
+    [Route("{domainId}")]
     [ResponseCache(NoStore = true)]
     public async Task<IActionResult> DeleteDomainAsync(int id)
     {

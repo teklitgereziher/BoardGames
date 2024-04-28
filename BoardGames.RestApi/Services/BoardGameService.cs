@@ -5,7 +5,7 @@ using BoardGames.RestApi.Services.Interfaces;
 
 namespace BoardGames.RestApi.Services
 {
-    public class BoardGameService : IBoardGameService
+  public class BoardGameService : IBoardGameService
   {
     private IBoardGameRepository _boardGameRepo;
 
@@ -63,9 +63,11 @@ namespace BoardGames.RestApi.Services
       await _boardGameRepo.InsertBoardGamesAsync(boardGames);
     }
 
-    public async Task<BoardGame> UpdateBoardGameAsync(UpdateBoardGameDTO model)
+    public async Task<BoardGame> UpdateBoardGameAsync(
+      int boardGameId,
+      UpdateBoardGameDTO model)
     {
-      var boardgame = await _boardGameRepo.GetBoardGameAsync(model.Id);
+      var boardgame = await _boardGameRepo.GetBoardGameAsync(boardGameId);
 
       if (boardgame == null)
       {

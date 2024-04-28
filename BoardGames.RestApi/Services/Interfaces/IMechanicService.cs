@@ -10,7 +10,7 @@ namespace BoardGames.RestApi.Services.Interfaces
       string filterQuery, int pageIndex,
       int pageSize, string sortColumn,
       string sortOrder);
-    Task<Mechanic> UpdateMechanicAsync(MechanicDTO model);
+    Task<Mechanic> UpdateMechanicAsync(int mechanicId, MechanicDTO model);
     Task<Mechanic> DeleteMechanicAsync(int domainId);
   }
 }

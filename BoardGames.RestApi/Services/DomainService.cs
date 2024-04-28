@@ -34,10 +34,10 @@ namespace BoardGames.RestApi.Services
         sortOrder);
     }
 
-    public async Task<Domain> UpdateDomainAsync(DomainDTO model)
+    public async Task<Domain> UpdateDomainAsync(int domainId, DomainDTO model)
     {
 
-      var domain = await _domainRepo.GetDomainAsync(model.Id);
+      var domain = await _domainRepo.GetDomainAsync(domainId);
       if (domain == null)
       {
         return null;

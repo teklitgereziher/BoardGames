@@ -130,14 +130,16 @@ namespace MyBGList.Controllers
     }
 
     [HttpPut]
-    [Route("updateBoardGame")]
+    [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> UpdateBoardGameAsync(UpdateBoardGameDTO model)
+    public async Task<IActionResult> UpdateBoardGameAsync(
+      int boardGameId,
+      UpdateBoardGameDTO model)
     {
 
       try
       {
-        var boardgame = await _boardGameService.UpdateBoardGameAsync(model);
+        var boardgame = await _boardGameService.UpdateBoardGameAsync(boardGameId, model);
         if (boardgame == null)
         {
           return NotFound("Board game to update not found.");
@@ -171,7 +173,7 @@ namespace MyBGList.Controllers
     }
 
     [HttpDelete]
-    [Route("deleteGame")]
+    [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
     public async Task<IActionResult> DeleteBoardGameAsync(int id)
     {

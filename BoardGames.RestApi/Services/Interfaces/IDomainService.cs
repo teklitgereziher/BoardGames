@@ -10,7 +10,7 @@ namespace BoardGames.RestApi.Services.Interfaces
       string filterQuery, int pageIndex,
       int pageSize, string sortColumn,
       string sortOrder);
-    Task<Domain> UpdateDomainAsync(DomainDTO model);
+    Task<Domain> UpdateDomainAsync(int domainId, DomainDTO model);
     Task<Domain> DeleteDomainAsync(int domainId);
   }
 }

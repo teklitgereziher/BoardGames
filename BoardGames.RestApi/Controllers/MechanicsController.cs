@@ -22,7 +22,7 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpGet]
-    [Route("getMechanics")]
+    [Route("mechanics")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
     public async Task<IActionResult> GetMechanicsAsync(
       [FromQuery] RequestDTO<MechanicDTO> input)
@@ -66,13 +66,13 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpPost]
-    [Route("updateMechanic")]
+    [Route("{mechanicId}")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> UpdateMechanicAsync(MechanicDTO model)
+    public async Task<IActionResult> UpdateMechanicAsync(int mechanicId, MechanicDTO model)
     {
       try
       {
-        var mechanic = await _mechanicService.UpdateMechanicAsync(model);
+        var mechanic = await _mechanicService.UpdateMechanicAsync(mechanicId, model);
         if (mechanic == null)
         {
           return NotFound("Mechanic to update not found.");
@@ -106,7 +106,7 @@ namespace BoardGames.RestApi.Controllers
     }
 
     [HttpDelete]
-    [Route("deleteMechanic")]
+    [Route("{mechanicId}")]
     [ResponseCache(NoStore = true)]
     public async Task<IActionResult> DeleteMechanicAsync(int id)
     {

@@ -34,9 +34,9 @@ namespace BoardGames.RestApi.Services
         sortOrder);
     }
 
-    public async Task<Mechanic> UpdateMechanicAsync(MechanicDTO model)
+    public async Task<Mechanic> UpdateMechanicAsync(int mechanicId, MechanicDTO model)
     {
-      var mechanic = await _mechanicsRepo.GetMechanicAsync(model.Id);
+      var mechanic = await _mechanicsRepo.GetMechanicAsync(mechanicId);
       if (mechanic == null)
       {
         return null;
