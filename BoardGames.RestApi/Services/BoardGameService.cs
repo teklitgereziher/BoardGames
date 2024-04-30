@@ -7,11 +7,15 @@ namespace BoardGames.RestApi.Services
 {
   public class BoardGameService : IBoardGameService
   {
-    private IBoardGameRepository _boardGameRepo;
+    private readonly IBoardGameRepository _boardGameRepo;
+    private readonly ILogger<BoardGameService> _logger;
 
-    public BoardGameService(IBoardGameRepository repository)
+    public BoardGameService(
+      IBoardGameRepository repository,
+      ILogger<BoardGameService> logger)
     {
       _boardGameRepo = repository;
+      _logger = logger;
     }
 
     public async Task<BoardGame> GetBoardGameAsync(int boardGameId)
@@ -93,9 +97,12 @@ namespace BoardGames.RestApi.Services
       var boardgame = await _boardGameRepo.GetBoardGameAsync(boardGameId);
       if (boardgame == null)
       {
+        _logger.LogInformation("Boardgame with Id={BoardGameId} does not exist.",
+          boardGameId);
         return boardgame;
       }
 
+      _logger.LogInformation("BoardGame {BoardGame} will be deleted.", boardgame);
       await _boardGameRepo.DeleteBoardGameAsync(boardgame);
 
       return boardgame;

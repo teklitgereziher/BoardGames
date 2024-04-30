@@ -175,11 +175,11 @@ namespace MyBGList.Controllers
     [HttpDelete]
     [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> DeleteBoardGameAsync(int id)
+    public async Task<IActionResult> DeleteBoardGameAsync(int boardGameId)
     {
       try
       {
-        var boardgame = await _boardGameService.DeleteBoardGameAsync(id);
+        var boardgame = await _boardGameService.DeleteBoardGameAsync(boardGameId);
         if (boardgame != null)
         {
           return NotFound("Board game to delete not found.");
@@ -194,7 +194,7 @@ namespace MyBGList.Controllers
             Url.Action(
               null,
               "BoardGames",
-              id,
+              boardGameId,
               Request.Scheme)!,
             "self",
             "DELETE"),
@@ -215,11 +215,11 @@ namespace MyBGList.Controllers
     [HttpDelete]
     [Route("deleteGames")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> DeleteGamesAsync(string ids)
+    public async Task<IActionResult> DeleteGamesAsync(string boardGameIds)
     {
       try
       {
-        var idArray = ids.Split(',').Select(x => int.Parse(x));
+        var idArray = boardGameIds.Split(',').Select(x => int.Parse(x));
         var deletedBGList = new List<BoardGame>();
 
         foreach (int id in idArray)
@@ -236,7 +236,7 @@ namespace MyBGList.Controllers
             Url.Action(
               null,
               "BoardGames",
-              ids,
+              boardGameIds,
               Request.Scheme)!,
             "self",
             "DELETE"),

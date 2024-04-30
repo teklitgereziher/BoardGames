@@ -7,6 +7,7 @@ using BoardGames.RestApi.Swagger;
 using BoardGames.Shared.Interfaces;
 using BoardGames.Shared.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace MyBGList
 {
@@ -15,6 +16,9 @@ namespace MyBGList
     public static void Main(string[] args)
     {
       var builder = WebApplication.CreateBuilder(args);
+      builder.Host.UseSerilog((context, services, configuration) =>
+      configuration.ReadFrom.Configuration(context.Configuration)
+      );
 
       // Log to Azure Application Insights
       //This configuration will activate the
@@ -39,6 +43,8 @@ namespace MyBGList
       builder.Services.AddScoped<IDomainService, DomainService>();
       builder.Services.AddScoped<IMechanicService, MechanicService>();
 
+      builder.Services.AddApplicationInsightsTelemetry();
+
       builder.Services.AddDbContext<BoardGamesDbContext>(options =>
       {
         options.UseNpgsql(
@@ -59,6 +65,9 @@ namespace MyBGList
       //    );
 
       var app = builder.Build();
+
+      //Serilog middleware To automatically log HTTP requests
+      app.UseSerilogRequestLogging();
 
       // Configure the HTTP request pipeline.
       if (app.Environment.IsDevelopment())

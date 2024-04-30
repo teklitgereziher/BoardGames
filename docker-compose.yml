@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   db:
-    image: postgres:16.1
+    image: postgres:latest
     container_name: postgres_container
     restart: always
     ports:
@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: strpass@tech
 
   pgadmin:
-    image: dpage/pgadmin4:8.0
+    image: dpage/pgadmin4:latest
     container_name: pgadmin4_container
     restart: always
     ports:
@@ -19,3 +19,39 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: techuser@tech.com
       PGADMIN_DEFAULT_PASSWORD: mystrpass
+  
+  serilogseq:
+    image: datalust/seq:latest
+    container_name: boardgame_seq
+    environment: 
+        - ACCEPT_EULA=Y
+    ports: 
+        - 5341:5341
+        - 8080:80
+
+  elasticsearch01:
+    container_name: elasticsearch_container
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0
+    ports:
+        - 9200:9200
+    environment:
+        - discovery.type=single-node
+    networks:
+      - infra_net
+
+  kibana:
+    container_name: kibana_container
+    image: docker.elastic.co/kibana/kibana:8.13.0
+    ports:
+        - 5601:5601
+    depends_on:
+        - elasticsearch01
+    environment:
+        discovery.type: single-node
+        elasticsearch.ssl.verificationMode: none
+    networks:
+      - infra_net
+
+networks:
+  infra_net:
+    driver: bridge
