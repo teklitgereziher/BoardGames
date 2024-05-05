@@ -3,6 +3,7 @@ using System;
 using BoardGames.DataContract.DatabContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BoardGames.DataContract.Migrations
 {
     [DbContext(typeof(BoardGamesDbContext))]
-    partial class BoardGamesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240505054605_add-Identity-table")]
+    partial class addIdentitytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

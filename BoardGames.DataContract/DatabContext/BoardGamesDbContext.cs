@@ -1,9 +1,10 @@
 ﻿using BoardGames.DataContract.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoardGames.DataContract.DatabContext
 {
-  public class BoardGamesDbContext : DbContext
+  public class BoardGamesDbContext : IdentityDbContext<BoardGameUser>
   {
     public DbSet<BoardGame> BoardGames => Set<BoardGame>();
     public DbSet<Domain> Domains => Set<Domain>();
@@ -20,6 +21,11 @@ namespace BoardGames.DataContract.DatabContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      // Keys of Identity tables are mapped in OnModelCreating method
+      // of IdentityDbContext and if this method is not called, you will
+      // 'The entity type 'IdentityUserLogin<string>' requires a primary key to be defined.
+      base.OnModelCreating(modelBuilder);
+
       modelBuilder.Entity<BoardGames_Domains>()
         .HasKey(i => new { i.BoardGameId, i.DomainId });
       modelBuilder.Entity<BoardGames_Domains>()

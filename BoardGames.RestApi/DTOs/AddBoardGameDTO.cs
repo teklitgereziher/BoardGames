@@ -2,6 +2,7 @@
 {
   public class AddBoardGameDTO
   {
+    public int BoardGameId { get; set; }
     public string Name { get; set; }
     public int Year { get; set; }
     public int MinPlayers { get; set; }
