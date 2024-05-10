@@ -1,7 +1,9 @@
 ﻿using BoardGames.DataContract.Models;
 using BoardGames.RestApi.Attributes;
+using BoardGames.RestApi.Constants;
 using BoardGames.RestApi.DTOs;
 using BoardGames.RestApi.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
 using System.ComponentModel.DataAnnotations;
@@ -67,6 +69,7 @@ namespace MyBGList.Controllers
       }
     }
 
+    [Authorize(Roles = RoleNames.Administrator)]
     [HttpGet]
     [Route("games")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
@@ -110,6 +113,7 @@ namespace MyBGList.Controllers
       }
     }
 
+    [Authorize]
     [HttpPost]
     [Route("addBoardGame")]
     [ResponseCache(NoStore = true)]
@@ -129,6 +133,7 @@ namespace MyBGList.Controllers
       }
     }
 
+    [Authorize]
     [HttpPut]
     [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
@@ -172,6 +177,7 @@ namespace MyBGList.Controllers
       }
     }
 
+    [Authorize(Roles = RoleNames.Administrator)]
     [HttpDelete]
     [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
@@ -212,6 +218,7 @@ namespace MyBGList.Controllers
       }
     }
 
+    [Authorize(Roles = RoleNames.Administrator)]
     [HttpDelete]
     [Route("deleteGames")]
     [ResponseCache(NoStore = true)]
