@@ -2,6 +2,7 @@ using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataAccess.Repository;
 using BoardGames.DataContract.DatabContext;
 using BoardGames.DataContract.Models;
+using BoardGames.RestApi.GraphQL;
 using BoardGames.RestApi.Services;
 using BoardGames.RestApi.Services.Interfaces;
 using BoardGames.RestApi.Swagger;
@@ -56,6 +57,14 @@ namespace MyBGList
           builder.Configuration.GetConnectionString("DbConnection")
           );
       }, ServiceLifetime.Scoped);
+
+      builder.Services.AddGraphQLServer()
+        .AddAuthorization()
+        .AddQueryType<Query>()
+        .AddMutationType<Mutation>()
+        .AddProjections()
+        .AddFiltering()
+        .AddSorting();
 
       // Identity service — to perform the registration and login processes
       // 1. Adds the Identity service
@@ -153,6 +162,8 @@ namespace MyBGList
       app.UseHttpsRedirection();
 
       app.UseAuthorization();
+
+      app.MapGraphQL("/graphql");
 
       app.MapControllers();
 

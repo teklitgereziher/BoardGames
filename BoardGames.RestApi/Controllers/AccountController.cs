@@ -15,18 +15,15 @@ namespace BoardGames.RestApi.Controllers
     private readonly ILogger<AccountController> _logger;
     private readonly IConfiguration _configuration;
     private readonly UserManager<BoardGameUser> _userManager;
-    private readonly SignInManager<BoardGameUser> _signInManager;
 
     public AccountController(
       ILogger<AccountController> logger,
       IConfiguration configuration,
-      UserManager<BoardGameUser> userManager,
-      SignInManager<BoardGameUser> signInManager)
+      UserManager<BoardGameUser> userManager)
     {
       _logger = logger;
       _configuration = configuration;
       _userManager = userManager;
-      _signInManager = signInManager;
     }
 
     [HttpPost]
