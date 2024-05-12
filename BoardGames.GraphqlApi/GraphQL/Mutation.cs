@@ -1,18 +1,18 @@
 ﻿using BoardGames.DataContract.DatabContext;
 using BoardGames.DataContract.Models;
-using BoardGames.RestApi.Constants;
-using BoardGames.RestApi.DTOs;
+using BoardGames.GraphqlApi.Constants;
+using BoardGames.GraphqlApi.DTOs;
 using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoardGames.RestApi.GraphQL
+namespace BoardGames.GraphqlApi.GraphQL
 {
   public class Mutation
   {
     [Serial]
     [Authorize(Roles = [RoleNames.Moderator])]
     public async Task<BoardGame> UpdateBoardGame(
-        [Service] BoardGamesDbContext context, AddBoardGameDTO model)
+        [Service] BoardGamesDbContext context, BoardGameDTO model)
     {
       var boardgame = await context.BoardGames
           .Where(b => b.BoardGameId == model.BoardGameId)

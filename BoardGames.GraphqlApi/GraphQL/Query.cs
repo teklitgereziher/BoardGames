@@ -1,7 +1,7 @@
 ﻿using BoardGames.DataContract.DatabContext;
 using BoardGames.DataContract.Models;
 
-namespace BoardGames.RestApi.GraphQL
+namespace BoardGames.GraphqlApi.GraphQL
 {
   public class Query
   {
