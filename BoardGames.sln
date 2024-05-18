@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGames.DataAccess", "Bo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGames.Shared", "BoardGames.Shared\BoardGames.Shared.csproj", "{425D0D00-0A9B-44BD-B926-887F533C61A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGames.GraphqlApi", "BoardGames.GraphqlApi\BoardGames.GraphqlApi.csproj", "{EC7C6E6C-7234-4317-AFC4-2A2D7AEE30C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGames.GraphqlApi", "BoardGames.GraphqlApi\BoardGames.GraphqlApi.csproj", "{EC7C6E6C-7234-4317-AFC4-2A2D7AEE30C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGames.gRPCApi", "BoardGames.gRPCApi\BoardGames.gRPCApi.csproj", "{4BC00ADC-C9E2-4616-A443-81C21B5751E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{EC7C6E6C-7234-4317-AFC4-2A2D7AEE30C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC7C6E6C-7234-4317-AFC4-2A2D7AEE30C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC7C6E6C-7234-4317-AFC4-2A2D7AEE30C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC00ADC-C9E2-4616-A443-81C21B5751E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC00ADC-C9E2-4616-A443-81C21B5751E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC00ADC-C9E2-4616-A443-81C21B5751E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC00ADC-C9E2-4616-A443-81C21B5751E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
