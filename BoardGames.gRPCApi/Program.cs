@@ -23,6 +23,8 @@ namespace BoardGames.gRPCApi
       );
 
       // Add services to the container.
+      builder.Services.AddScoped<IDomainRepository, DomainRepository>();
+      builder.Services.AddScoped<IMechanicRepository, MechanicRepository>();
       builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
       builder.Services.AddScoped<IRepository, BaseRepository>();
       builder.Services.AddControllers();
