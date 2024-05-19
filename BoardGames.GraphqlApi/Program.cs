@@ -1,4 +1,6 @@
 
+using BoardGames.DataAccess.Interfaces;
+using BoardGames.DataAccess.Repository;
 using BoardGames.DataContract.DatabContext;
 using BoardGames.DataContract.Models;
 using BoardGames.GraphqlApi.GraphQL;
@@ -21,6 +23,7 @@ namespace BoardGames.GraphqlApi
       );
 
       // Add services to the container.
+      builder.Services.AddScoped<IRepository, BaseRepository>();
       builder.Services.AddControllers();
       builder.Services.AddEndpointsApiExplorer();
 

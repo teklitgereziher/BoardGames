@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BoardGames.DataAccess\BoardGames.DataAccess.csproj" />
     <ProjectReference Include="..\BoardGames.DataContract\BoardGames.DataContract.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using BoardGames.DataContract.DatabContext;
+﻿using BoardGames.DataAccess.Interfaces;
 using BoardGames.DataContract.Models;
 
 namespace BoardGames.GraphqlApi.GraphQL
@@ -11,8 +11,8 @@ namespace BoardGames.GraphqlApi.GraphQL
     [UseFiltering]
     [UseSorting]
     public IQueryable<BoardGame> GetBoardGames(
-        [Service] BoardGamesDbContext context)
-        => context.BoardGames;
+        [Service] IRepository repository)
+        => repository.Query<BoardGame>();
 
     [Serial]
     [UsePaging]
@@ -20,8 +20,8 @@ namespace BoardGames.GraphqlApi.GraphQL
     [UseFiltering]
     [UseSorting]
     public IQueryable<Domain> GetDomains(
-        [Service] BoardGamesDbContext context)
-        => context.Domains;
+        [Service] IRepository repository)
+        => repository.Query<Domain>();
 
     [Serial]
     [UsePaging]
@@ -29,7 +29,7 @@ namespace BoardGames.GraphqlApi.GraphQL
     [UseFiltering]
     [UseSorting]
     public IQueryable<Mechanic> GetMechanics(
-        [Service] BoardGamesDbContext context)
-        => context.Mechanics;
+        [Service] IRepository repository)
+        => repository.Query<Mechanic>();
   }
 }
