@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGames.gRPCApi.Controllers
 {
-  [Route("[controller]")]
+  [Route("[controller]/[action]")]
   [ApiController]
   public class GrpcController : ControllerBase
   {
