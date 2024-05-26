@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
 
 namespace MyBGList
 {
@@ -102,6 +103,11 @@ namespace MyBGList
 
       builder.Services.AddSwaggerGen(options =>
       {
+        options.EnableAnnotations();
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        options.IncludeXmlComments(Path.Combine(
+        AppContext.BaseDirectory, xmlFilename));
+
         options.ParameterFilter<SortColumnFilter>();
         options.ParameterFilter<SortOrderFilter>();
 
@@ -115,20 +121,24 @@ namespace MyBGList
           Scheme = "bearer"
         });
 
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-          {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                }
-            },
-            Array.Empty<string>()
-          }
-        });
+        //options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        //{
+        //  {
+        //    new OpenApiSecurityScheme
+        //    {
+        //        Reference = new OpenApiReference
+        //        {
+        //            Type=ReferenceType.SecurityScheme,
+        //            Id="Bearer"
+        //        }
+        //    },
+        //    Array.Empty<string>()
+        //  }
+        //});
+
+        options.OperationFilter<AuthRequirementFilter>();
+        options.DocumentFilter<CustomDocumentFilter>();
+        options.RequestBodyFilter<PasswordRequestFilter>();
       });
       // Code replaced by the [ManualValidationFilter] attribute
       // to apply only for a specific action method
@@ -148,6 +158,27 @@ namespace MyBGList
       {
         app.UseSwagger();
         app.UseSwaggerUI();
+      }
+      else
+      {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        // HTTP Security Headers
+        app.UseHsts();
+        app.Use(async (context, next) =>
+        {
+          context.Response.Headers.Add("X-Frame-Options",
+              "sameorigin");
+          context.Response.Headers.Add("X-XSS-Protection",
+              "1; mode=block");
+          context.Response.Headers.Add("X-Content-Type-Options",
+              "nosniff");
+          context.Response.Headers.Add("Content-Security-Policy",
+              "default-src 'self'; script-src 'self' 'nonce-23a98b38c'");
+          context.Response.Headers.Add("Referrer-Policy",
+              "strict-origin");
+          await next();
+        });
       }
 
       app.UseHttpsRedirection();

@@ -10,7 +10,7 @@ namespace BoardGames.RestApi.Services.Interfaces
       string filterQuery, int pageIndex,
       int pageSize, string sortColumn,
       string sortOrder);
-    Task<BoardGame> AddBoardGameAsync(AddBoardGameDTO boardGameDto);
+    Task<BoardGame> AddBoardGameAsync(BoardGameDTO boardGameDto);
     Task AddBoardGamesAsync(List<BoardGame> boardGames);
     Task<BoardGame> UpdateBoardGameAsync(int boardGameId, UpdateBoardGameDTO model);
     Task<BoardGame> DeleteBoardGameAsync(int boardGameId);

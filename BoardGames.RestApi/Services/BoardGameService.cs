@@ -38,7 +38,7 @@ namespace BoardGames.RestApi.Services
         sortOrder);
     }
 
-    public async Task<BoardGame> AddBoardGameAsync(AddBoardGameDTO boardGameDto)
+    public async Task<BoardGame> AddBoardGameAsync(BoardGameDTO boardGameDto)
     {
       var now = DateTime.UtcNow;
       var boardGame = new BoardGame

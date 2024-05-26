@@ -6,6 +6,7 @@ using BoardGames.RestApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBGList.DTOs;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyBGList.Controllers
@@ -28,8 +29,15 @@ namespace MyBGList.Controllers
     [HttpGet]
     [Route("retrieveGames")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
+    [SwaggerOperation(
+      Summary = "Get a list of board games.",
+      Description = "Retrieves a list of board games " +
+      "with custom paging, sorting, and filtering rules.")]
     public async Task<IActionResult> RetrieveBoardGamesAsync(
-      [FromQuery] RequestDTO<AddBoardGameDTO> input)
+      [FromQuery]
+      [SwaggerParameter("A DTO object that can be used " +
+      "to customize the data-retrieval parameters.")]
+    RequestDTO<BoardGameDTO> input)
     {
       try
       {
@@ -73,11 +81,15 @@ namespace MyBGList.Controllers
     [HttpGet]
     [Route("games")]
     [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 60)]
+    [SwaggerOperation(
+      Summary = "Get a list of board games.",
+      Description = "Retrieves a list of board games " +
+      "with custom paging, sorting, and filtering rules.")]
     public async Task<IActionResult> GetBoardGamesAsync(
       string filterQuery = null,
       int pageIndex = 0,
       [Range(1, 100)] int pageSize = 10,
-      [SortColumnValidator(typeof(AddBoardGameDTO))] string sortColumn = "BoardGameId",
+      [SortColumnValidator(typeof(BoardGameDTO))] string sortColumn = "BoardGameId",
       [RegularExpression("ASC|DESC")] string sortOrder = "ASC")
     {
       try
@@ -117,7 +129,12 @@ namespace MyBGList.Controllers
     [HttpPost]
     [Route("addBoardGame")]
     [ResponseCache(NoStore = true)]
-    public async Task<IActionResult> AddBoardGameAsync(AddBoardGameDTO boardGameDTO)
+    [SwaggerOperation(
+      Summary = "Adds a board game.",
+      Description = "Adds a board game.")]
+    [SwaggerResponse(StatusCodes.Status201Created, "Authorized")]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Not authorized")]
+    public async Task<IActionResult> AddBoardGameAsync(BoardGameDTO boardGameDTO)
     {
       try
       {
@@ -137,6 +154,9 @@ namespace MyBGList.Controllers
     [HttpPut]
     [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
+    [SwaggerOperation(
+      Summary = "Updates a board game.",
+      Description = "Updates the board game's data.")]
     public async Task<IActionResult> UpdateBoardGameAsync(
       int boardGameId,
       UpdateBoardGameDTO model)
@@ -181,6 +201,9 @@ namespace MyBGList.Controllers
     [HttpDelete]
     [Route("{boardGameId}")]
     [ResponseCache(NoStore = true)]
+    [SwaggerOperation(
+      Summary = "Deletes a board game.",
+      Description = "Deletes a board game from the database.")]
     public async Task<IActionResult> DeleteBoardGameAsync(int boardGameId)
     {
       try

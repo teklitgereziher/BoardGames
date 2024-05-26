@@ -1,6 +1,6 @@
 ﻿namespace BoardGames.RestApi.DTOs
 {
-  public class AddBoardGameDTO
+  public class BoardGameDTO
   {
     public int BoardGameId { get; set; }
     public string Name { get; set; }

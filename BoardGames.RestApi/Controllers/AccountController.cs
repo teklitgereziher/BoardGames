@@ -26,8 +26,20 @@ namespace BoardGames.RestApi.Controllers
       _userManager = userManager;
     }
 
+    /// <summary>
+    /// Registers a new user.
+    /// </summary>
+    /// <param name="input">A DTO containing the user data.</param>
+    /// <returns> A 201 - Created status code in case of success.</returns>
+    /// <response code="201">User has been registered</response>
+    /// <response code="400">Invalid data</response>
+    /// <response code="500">An error occurred</response>
+    /// [ApiExplorerSettings(IgnoreApi = true)]
     [HttpPost]
     [Route("register")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Register(RegisterDTO input)
     {
       try
@@ -75,8 +87,19 @@ namespace BoardGames.RestApi.Controllers
       }
     }
 
+    /// <summary>
+    /// Performs a user login.
+    /// </summary>
+    /// <param name="input">A DTO containing the user's credentials.</param>
+    /// <returns>The Bearer Token (in JWT format).</returns>
+    /// <response code="200">User has been logged in</response>
+    /// <response code="400">Login failed (bad request)</response>
+    /// <response code="401">Login failed (unauthorized)</response>
     [HttpPost]
     [Route("login")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BadRequestObjectResult), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult> Login(LoginDTO input)
     {
       try
